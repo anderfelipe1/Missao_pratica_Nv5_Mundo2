@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editoras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Editoras</h1>
+        <ul id="editoras-list"></ul>
+    </div>
+
+    <script>
+        // Função para buscar as editoras da API
+        async function fetchEditoras() {
+            try {
+                const response = await fetch('/api/editoras');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar editoras');
+                }
+                const editoras = await response.json();
+                displayEditoras(editoras);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Função para exibir as editoras na lista
+        function displayEditoras(editoras) {
+            const list = document.getElementById('editoras-list');
+            editoras.forEach(editora => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${editora.codEditora}: ${editora.nome}`;
+                list.appendChild(listItem);
+            });
+        }
+
+        // Chama a função para buscar as editoras ao carregar a página
+        window.onload = fetchEditoras;
+    </script>
+</body>
+</html>
